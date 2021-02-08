@@ -23,12 +23,23 @@ namespace zadacha
             {
 
                 elem = strMas[i];
-                string numElem = new String(elem.Where(Char.IsDigit).ToArray());
-                
-                char a = numElem[0];
-                char b = numElem[1];
-                first = int.Parse(a.ToString());
-                last = int.Parse(b.ToString());
+                List<string> stringList = new List<string>();
+                string stringBuff="";
+                foreach (var j in elem)
+                {
+                    if (j != '-')
+                    {
+                        stringBuff += j;
+                    }
+                    else
+                    {
+                        stringList.Add(stringBuff);
+                        stringBuff = "";
+                    }
+                }
+                stringList.Add(stringBuff);
+                first = int.Parse(stringList[0].ToString());
+                last = int.Parse(stringList[1].ToString());
                 Diap diap = new Diap(first, last);
                 diapList.Add(diap);
             }
@@ -156,8 +167,8 @@ namespace zadacha
         
         static void Main(string[] args)
         {
-            string[] mas = new string[] { "1-6", "2-10" , "3-8", "4-15", "3-20", "5-6", "10-20" };
-            //string[] mas = new string[] {"1-9", "3-3", "1-4"};
+            //string[] mas = new string[] { "1-6", "2-10" , "3-8", "4-15", "3-20", "5-6", "10-20" };
+            string[] mas = new string[] { "1-5", "2-6", "7-9", "10-20", "13-21" , "15-25", "34-40" , "45-56", "20-22", "55-99"};
             //string[] mas = new string[] { "1-9", "1-8", "1-2", "1-3", "2-6", "3-4", "5-7", "2-4" };
             //int[] test = TestFunc(mas);
 
