@@ -6,26 +6,27 @@ namespace zadacha
 {
     class Program
     {
-        public struct Diap
+        public struct Diap // Структура диапазона с первой и последней цифрой 
         {
             public double First;
             public double Last;
             public Diap(double a, double b) { this.First = a; this.Last = b; }
         }
 
-        public static List<Diap> ConvertArray(string[] strMas)
+        public static List<Diap> ConvertArray(string[] strMasInput) // Преобразование входного массива строк в список  Diap
         {
-            List<Diap> diapList = new List<Diap>();
+            List<Diap> diapListOut = new List<Diap>();
             double first;
             double last;
-            string elem;
-            for (int i = 0; i < strMas.Length; i++)
+            string element;
+            // Создаем список объектов Diap из входного массива строк
+            for (int i = 0; i < strMasInput.Length; i++) 
             {
 
-                elem = strMas[i];
+                element = strMasInput[i];
                 List<string> stringList = new List<string>();
                 string stringBuff="";
-                foreach (var j in elem)
+                foreach (var j in element)
                 {
                     if (j != '-')
                     {
@@ -41,101 +42,62 @@ namespace zadacha
                 first = int.Parse(stringList[0].ToString());
                 last = int.Parse(stringList[1].ToString());
                 Diap diap = new Diap(first, last);
-                diapList.Add(diap);
+                diapListOut.Add(diap);
             }
+            // Сортировка Diap списка 
             Diap temp = new Diap();
-            for (int i = 0; i < diapList.Count - 1; i++)
+            for (int i = 0; i < diapListOut.Count - 1; i++)
             {
-                for (int j = i + 1; j < diapList.Count; j++)
+                for (int j = i + 1; j < diapListOut.Count; j++)
                 {
-                    if (diapList[i].First > diapList[j].First)
+                    if (diapListOut[i].First > diapListOut[j].First)
                     {
-                        temp = diapList[i];
-                        diapList[i] = diapList[j];
-                        diapList[j] = temp;
+                        temp = diapListOut[i];
+                        diapListOut[i] = diapListOut[j];
+                        diapListOut[j] = temp;
                     }
                 }
             }
-            for (int x = 0; x < diapList.Count - 1; x++)
+            // Сортировка Diap списка 
+            for (int x = 0; x < diapListOut.Count - 1; x++)
             {
-                for (int z = x + 1; z < diapList.Count; z++)
+                for (int z = x + 1; z < diapListOut.Count; z++)
                 {
-                    if (diapList[x].First == diapList[z].First & diapList[x].Last > diapList[z].Last)
+                    if (diapListOut[x].First == diapListOut[z].First & diapListOut[x].Last > diapListOut[z].Last)
                     {
-                        temp = diapList[x];
-                        diapList[x] = diapList[z];
-                        diapList[z] = temp;
+                        temp = diapListOut[x];
+                        diapListOut[x] = diapListOut[z];
+                        diapListOut[z] = temp;
                     }
                 }
             }
-            return diapList;
+            return diapListOut;
         }
 
-        //public static List<Diap> ConvertArray(string[] strMas)       //////STABLE
+
+
+        //public static List<double> GetList(Diap diap)
         //{
-        //    List<Diap> diapList = new List<Diap>();
-        //    double first;
-        //    double last;
-        //    string elem;
-        //    for (int i = 0; i < strMas.Length; i++)
+        //    List<double> list = new List<double>();
+        //    double buff;
+        //    for(double i = diap.First; i<= diap.Last; i++)
         //    {
-        //        elem = strMas[i];
-        //        char a = elem[0];
-        //        char b = elem[2];
-        //        first = int.Parse(a.ToString());
-        //        last = int.Parse(b.ToString());
-        //        Diap diap = new Diap(first, last);
-        //        diapList.Add(diap);
+        //        buff = i;
+        //        list.Add(buff);
         //    }
-        //    Diap temp =new Diap();
-        //    for (int i = 0; i < diapList.Count - 1; i++)
-        //    {
-        //        for (int j = i + 1; j < diapList.Count; j++)
-        //        {
-        //            if (diapList[i].First > diapList[j].First)
-        //            {
-        //                temp = diapList[i];
-        //                diapList[i] = diapList[j];
-        //                diapList[j] = temp;
-        //            }
-        //        }
-        //    }
-        //    for (int x = 0; x < diapList.Count - 1;x++)
-        //    {
-        //        for (int z = x + 1; z < diapList.Count; z++)
-        //        {
-        //            if (diapList[x].First == diapList[z].First & diapList[x].Last > diapList[z].Last)
-        //            {
-        //                temp = diapList[x];
-        //                diapList[x] = diapList[z];
-        //                diapList[z] = temp;
-        //            }
-        //        }
-        //    }
-        //    return diapList;
+        //    return list;
         //}
-
-        public static List<double> GetList(Diap diap)
-        {
-            List<double> list = new List<double>();
-            double buff;
-            for(double i = diap.First; i<= diap.Last; i++)
-            {
-                buff = i;
-                list.Add(buff);
-            }
-            return list;
-        }
 
         public static List<Diap> Zadacha(List<Diap> diaps)
         {
             List <Diap> listOut = new List<Diap>();
             Diap elem = diaps[0];
             Diap elemBuff = new Diap();
+            bool flag;
             for (int i=1; i<diaps.Count;i++)
             {
-                elemBuff = DiapMerge(elem, diaps[i]);
-                if (elemBuff.First == 1.2 & elemBuff.Last == 3.4) // Уперлись
+                elemBuff = DiapMerge(elem, diaps[i], out flag);
+                if (flag == false) // Уперлись
                 {
                     listOut.Add(elem);
                     elem = diaps[i];
@@ -149,29 +111,48 @@ namespace zadacha
             return listOut;
 
         }
-        public static Diap DiapMerge(Diap diap1, Diap diap2)
+        //public static Diap DiapMerge(Diap diap1, Diap diap2) // Слияние двух элементов Diap. Если слияние возможно - возвращает новый элемент. Если нет - возвращает костыль
+        //{
+        //    Diap diapOut;
+        //    if (diap1.Last >= diap2.First)
+        //    {
+        //        List<Double> compareLast = new List<double>() { diap1.Last, diap2.Last };
+        //        double biggestLast = compareLast.Max();
+        //        diapOut = new Diap(diap1.First, biggestLast);
+        //    }
+        //    // Костыль
+        //    else
+        //    {
+        //        diapOut = new Diap(1.2, 3.4);
+
+        //    }
+        //    return diapOut;
+        //}
+
+        public static Diap DiapMerge(Diap diap1, Diap diap2, out bool flag) // Слияние двух элементов Diap. Если слияние возможно - возвращает новый элемент и true. Если нет - возвращает элемент (0, 0) и false
         {
-            Diap diapOut;
+            Diap diapOut = new Diap();
             if (diap1.Last >= diap2.First)
             {
                 List<Double> compareLast = new List<double>() { diap1.Last, diap2.Last };
                 double biggestLast = compareLast.Max();
                 diapOut = new Diap(diap1.First, biggestLast);
+                flag = true;
+                return diapOut;
             }
             else
             {
-                diapOut = new Diap(1.2, 3.4);
+                diapOut = new Diap(0.0, 0.0);
+                flag = false;
+                return diapOut;
+
             }
-            return diapOut;
         }
-        
+
+
         static void Main(string[] args)
         {
-            //string[] mas = new string[] { "1-6", "2-10" , "3-8", "4-15", "3-20", "5-6", "10-20" };
-            string[] mas = new string[] { "1-5", "2-6", "7-9", "10-20", "13-21" , "15-25", "34-40" , "45-56", "20-22", "55-99"};
-            //string[] mas = new string[] { "1-9", "1-8", "1-2", "1-3", "2-6", "3-4", "5-7", "2-4" };
-            //int[] test = TestFunc(mas);
-
+            string[] mas = new string[] { "1-5", "2-6", "7-9", "10-20", "13-21", "15-25", "34-40", "45-56", "20-22", "55-99", "98-110", "1-5", "6-15", "2-28", "3-22" };
 
             var a = ConvertArray(mas);
             Console.WriteLine("---SORTED--");
