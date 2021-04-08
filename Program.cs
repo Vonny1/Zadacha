@@ -76,17 +76,6 @@ namespace zadacha
 
 
 
-        //public static List<double> GetList(Diap diap)
-        //{
-        //    List<double> list = new List<double>();
-        //    double buff;
-        //    for(double i = diap.First; i<= diap.Last; i++)
-        //    {
-        //        buff = i;
-        //        list.Add(buff);
-        //    }
-        //    return list;
-        //}
 
         public static List<Diap> Zadacha(List<Diap> diaps)
         {
@@ -111,23 +100,6 @@ namespace zadacha
             return listOut;
 
         }
-        //public static Diap DiapMerge(Diap diap1, Diap diap2) // Слияние двух элементов Diap. Если слияние возможно - возвращает новый элемент. Если нет - возвращает костыль
-        //{
-        //    Diap diapOut;
-        //    if (diap1.Last >= diap2.First)
-        //    {
-        //        List<Double> compareLast = new List<double>() { diap1.Last, diap2.Last };
-        //        double biggestLast = compareLast.Max();
-        //        diapOut = new Diap(diap1.First, biggestLast);
-        //    }
-        //    // Костыль
-        //    else
-        //    {
-        //        diapOut = new Diap(1.2, 3.4);
-
-        //    }
-        //    return diapOut;
-        //}
 
         public static Diap DiapMerge(Diap diap1, Diap diap2, out bool flag) // Слияние двух элементов Diap. Если слияние возможно - возвращает новый элемент и true. Если нет - возвращает элемент (0, 0) и false
         {
@@ -152,7 +124,7 @@ namespace zadacha
 
         static void Main(string[] args)
         {
-            string[] mas = new string[] { "1-5", "2-6", "7-9", "10-20", "13-21", "15-25", "34-40", "45-56", "20-22", "55-99", "98-110", "1-5", "6-15", "2-28", "3-22" };
+            string[] mas = new string[] {"2-4", "17-49", "2-8", "26-32", "14-21", "8-10", "1-3", "32-35"};
 
             var a = ConvertArray(mas);
             Console.WriteLine("---SORTED--");
